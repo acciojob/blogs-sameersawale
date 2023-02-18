@@ -17,24 +17,16 @@ public class ImageService {
 
     public Image addImage(Integer blogId, String description, String dimensions){
         //add an image to the blog
-
-        Image image=new Image();
-
+        Blog blog = blogRepository2.findById(blogId).get();
+        Image image = new Image();
         image.setDescription(description);
-        image.setDimension(dimensions);
-
-        Blog blog=blogRepository2.findById(blogId).get();
-
-        List<Image>listOfImage=blog.getImageList();
-
-        listOfImage.add(image);
-
+        image.setDimensions(dimensions);
         image.setBlog(blog);
 
-        blog.setImageList(listOfImage);
-
+        List<Image> imageList = blog.getImageList();
+        imageList.add(image);
+        blog.setImageList(imageList);
         blogRepository2.save(blog);
-
         return image;
     }
 
@@ -44,9 +36,8 @@ public class ImageService {
 
     public int countImagesInScreen(Integer id, String screenDimensions) {
         //Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
-
         Image image = imageRepository2.findById(id).get();
-        String dimensions = image.getDimension();
+        String dimensions = image.getDimensions();
         int xi = 0;
         int yi = 0;
         int xs = 0;
@@ -81,3 +72,4 @@ public class ImageService {
         return ans;
     }
 }
+

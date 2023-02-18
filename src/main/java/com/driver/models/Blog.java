@@ -9,30 +9,34 @@ import java.util.List;
 
 @Entity
 @Table(name = "blog")
-public class Blog {
-
-
+public class Blog{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String title;
-
     private String content;
 
     @CreationTimestamp
     private Date pubDate;
 
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    private List<Image> imageList = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn
     private User user;
 
+    public Blog(){
 
-    @OneToMany(mappedBy = "Blog", cascade = CascadeType.ALL)
-    private List<Image>imageList=new ArrayList<>();
+    }
 
-    public Blog() {
-
+    public Blog(int id, String title, String content, Date pubDate, List<Image> imageList, User user) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.pubDate = pubDate;
+        this.imageList = imageList;
+        this.user = user;
     }
 
     public int getId() {
@@ -67,19 +71,19 @@ public class Blog {
         this.pubDate = pubDate;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public List<Image> getImageList() {
         return imageList;
     }
 
     public void setImageList(List<Image> imageList) {
         this.imageList = imageList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
